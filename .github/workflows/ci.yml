@@ -58,7 +58,7 @@ jobs:
         echo "${issue_body}" > config.yml
         echo config.yml contents
         cat config.yml
-        java -jar ${TOOL_JAR} generate-workflow --workflow-dir=.github/workflows --yaml=config.yml --issue=${{ github.event.issue.number }} --branch=$BRANCH
+        java -jar ${TOOL_JAR} generate-workflow --workflow-dir=.github/workflows --yaml=config.yml --issue=${{ github.event.issue.number }} --branch=$BRANCH --output-file=issue-input.yml
         # Make sure .gitignore exists and that it contains .ci-tools as the generated workflow clones the
         # branch containing it into a sub-folder with this name, which in turn gives some warnings
         if [[ ! -f .gitignore ]]; then
