@@ -38,15 +38,14 @@ end-job:
         echo The workflow run is at: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}} >> $OB_STATUS_TEXT
         
         # Add the server zip and the maven repo zip to the json file
-
+        # Copy the json file first so we don't modify the original from the branch, and then modify the downloadable copy
+        FINAL_JSON="${TGT_FOLDER}/issue-${OB_ISSUE_ID}.json"
+        sudo cp "${OB_ISSUE_DATA_JSON}" "${FINAL_JSON}"
         # server
         tmpfile=$(mktemp)
-        jq --arg path "${BASE_URL}/wildfly.zip" '.["downloads"].server=$path' "${OB_ISSUE_DATA_JSON}" > "${tmpfile}"
-        mv "${tmpfile}" "${OB_ISSUE_DATA_JSON}"
-        
+        jq --arg path "${BASE_URL}/wildfly.zip" '.["downloads"].server=$path' "${FINAL_JSON}" > "${tmpfile}"
+        mv "${tmpfile}" "${FINAL_JSON}"
         # maven repo
         tmpfile=$(mktemp)
-        jq --arg path "${BASE_URL}/maven-repo.zip" '.["downloads"]."maven-repo"=$path' "${OB_ISSUE_DATA_JSON}" > "${tmpfile}"
-        mv "${tmpfile}" "${OB_ISSUE_DATA_JSON}"
-
-        sudo cp "${OB_ISSUE_DATA_JSON}" "${TGT_FOLDER}/issue-${OB_ISSUE_ID}.json"
+        jq --arg path "${BASE_URL}/maven-repo.zip" '.["downloads"]."maven-repo"=$path' "${FINAL_JSON}" > "${tmpfile}"
+        mv "${tmpfile}" "${FINAL_JSON}"
