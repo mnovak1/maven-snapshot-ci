@@ -39,7 +39,7 @@ end-job:
         
         # Add the server zip and the maven repo zip to the json file
         # Copy the json file first so we don't modify the original from the branch, and then modify the downloadable copy
-        FINAL_JSON="${TGT_FOLDER}/issue-${OB_ISSUE_ID}.json"
+        FINAL_JSON="${TGT_FOLDER}/../issue-${OB_ISSUE_ID}.json"
         sudo cp "${OB_ISSUE_DATA_JSON}" "${FINAL_JSON}"
         # server
         tmpfile=$(mktemp)
@@ -49,3 +49,7 @@ end-job:
         tmpfile=$(mktemp)
         sudo jq --arg path "${BASE_URL}/maven-repo.zip" '.["downloads"]."maven-repo"=$path' "${FINAL_JSON}" > "${tmpfile}"
         sudo mv "${tmpfile}" "${FINAL_JSON}"
+        # Make permissions same as other files
+        sudo chown root "${FINAL_JSON}"
+        sudo chown root "${FINAL_JSON}"
+        sudo chmod 644 "${FINAL_JSON}" 
