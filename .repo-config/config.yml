@@ -43,9 +43,9 @@ end-job:
         sudo cp "${OB_ISSUE_DATA_JSON}" "${FINAL_JSON}"
         # server
         tmpfile=$(mktemp)
-        jq --arg path "${BASE_URL}/wildfly.zip" '.["downloads"].server=$path' "${FINAL_JSON}" > "${tmpfile}"
-        mv "${tmpfile}" "${FINAL_JSON}"
+        sudo jq --arg path "${BASE_URL}/wildfly.zip" '.["downloads"].server=$path' "${FINAL_JSON}" > "${tmpfile}"
+        sudo mv "${tmpfile}" "${FINAL_JSON}"
         # maven repo
         tmpfile=$(mktemp)
-        jq --arg path "${BASE_URL}/maven-repo.zip" '.["downloads"]."maven-repo"=$path' "${FINAL_JSON}" > "${tmpfile}"
-        mv "${tmpfile}" "${FINAL_JSON}"
+        sudo jq --arg path "${BASE_URL}/maven-repo.zip" '.["downloads"]."maven-repo"=$path' "${FINAL_JSON}" > "${tmpfile}"
+        sudo mv "${tmpfile}" "${FINAL_JSON}"
