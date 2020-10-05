@@ -48,4 +48,4 @@ end-job:
         jq --arg path "${TGT_FOLDER}/maven-repo.zip" '.["downloads"]."maven-repo"=$path' "${OB_ISSUE_DATA_JSON}" > "${tmpfile}"
         mv "${tmpfile}" "${OB_ISSUE_DATA_JSON}"
 
-        cp "${OB_ISSUE_DATA_JSON}" "${TGT_FOLDER}/issue-${OB_ISSUE_ID}.json"
+        sudo cp "${OB_ISSUE_DATA_JSON}" "${TGT_FOLDER}/issue-${OB_ISSUE_ID}.json"
