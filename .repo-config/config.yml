@@ -32,7 +32,8 @@ end-job:
           sudo cp ${OB_ARTIFACTS_DIR}/maven-repo.zip ${TGT_FOLDER}
         fi
         # Link to the artifacts
-        echo Artifacts can be downloaded from: http://${IP_ADDR}/issue-${OB_ISSUE_ID} >> $OB_STATUS_TEXT
+        BASE_URL=http://${IP_ADDR}/issue-${OB_ISSUE_ID}
+        echo Artifacts can be downloaded from: ${BASE_URL} >> $OB_STATUS_TEXT
         # Link to the workflow
         echo The workflow run is at: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}} >> $OB_STATUS_TEXT
         
@@ -40,12 +41,12 @@ end-job:
 
         # server
         tmpfile=$(mktemp)
-        jq --arg path "${TGT_FOLDER}/wildfly.zip" '.["downloads"].server=$path' "${OB_ISSUE_DATA_JSON}" > "${tmpfile}"
+        jq --arg path "${BASE_URL}/wildfly.zip" '.["downloads"].server=$path' "${OB_ISSUE_DATA_JSON}" > "${tmpfile}"
         mv "${tmpfile}" "${OB_ISSUE_DATA_JSON}"
         
         # maven repo
         tmpfile=$(mktemp)
-        jq --arg path "${TGT_FOLDER}/maven-repo.zip" '.["downloads"]."maven-repo"=$path' "${OB_ISSUE_DATA_JSON}" > "${tmpfile}"
+        jq --arg path "${BASE_URL}/maven-repo.zip" '.["downloads"]."maven-repo"=$path' "${OB_ISSUE_DATA_JSON}" > "${tmpfile}"
         mv "${tmpfile}" "${OB_ISSUE_DATA_JSON}"
 
         sudo cp "${OB_ISSUE_DATA_JSON}" "${TGT_FOLDER}/issue-${OB_ISSUE_ID}.json"
