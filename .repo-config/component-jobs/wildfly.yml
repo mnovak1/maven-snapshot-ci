@@ -140,6 +140,8 @@ jobs:
 
   ts-vdx:
     needs: [build]
+    # These tests need Java 11 in this environment
+    java-version: 11
     run:
       # We need to rebuild the dists again, hence the initial install
       - mvn: ${MAVEN_TEST_BUILD_DEPS}
