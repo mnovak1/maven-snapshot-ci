@@ -1,6 +1,6 @@
 env:
   MAVEN_OPTS: -Xmx1g -Xmx1g
-java-version: 8
+java-version: 11
 issue-reporting:
   comments: true
   labels:
